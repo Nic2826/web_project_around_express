@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 const usersRoutes = require('./routes/users');
 const cardsRoutes = require('./routes/cards');
@@ -17,3 +18,11 @@ const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
+mongoose.connect('mongodb://localhost:27017/aroundb')
+  .then(() => {
+    console.log('conectado a la base de datos');
+  })
+  .catch((err) => {
+    console.error('algo salio mal', err);
+  });

@@ -3,35 +3,27 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const router = express.Router();
+import User from '../models/user';
 
 // Ruta para obtener todos los usuarios
-router.get('/', (req, res) => {
-  const filePath = path.join(__dirname, '../data/users.json');
-  fs.readFile(filePath, 'utf-8', (err, data) => {
-    if (err) {
-      return res.status(500).json({ message: 'Error al leer el archivo de usuarios' });
-    }
-    const users = JSON.parse(data);
-    res.json(users);
+router.get('/', async function (req, res) {
+  const users = await User.find({});
+  res.send(users);
   });
-});
 
 // Ruta para obtener un usuario por ID
 router.get('/:id', (req, res) => {
-  const filePath = path.join(__dirname, '../data/users.json');
-  fs.readFile(filePath, 'utf-8', (err, data) => {
-    if (err) {
-      return res.status(500).json({ message: 'Error al leer el archivo de usuarios' });
-    }
-    const users = JSON.parse(data);
-    const user = users.find(u => u._id === req.params.id);
+  const {id} = req.params;
+});
 
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).json({ message: 'ID de usuario no encontrado' });
-    }
-  });
+
+router.post('/', async function (req, res) {
+const newUser = await User.create({
+  name: req.body.name,
+  about: req.body.about,
+  avatar:req.body.avatar
+});
+res.send(newUser);
 });
 
 module.exports = router;
