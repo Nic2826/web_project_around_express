@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
 const cardSchema = new mongoose.Schema({
   name: {
@@ -11,18 +11,23 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 2,
-    maxlength:30
+    // validate:{}
   },
   owner: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+    required: true
   },
   likes: {
-    type: String,
+    type: [{type: mongoose.Schema.Types.ObjectId}],
+    default: [],
     required: true,
   },
   createdAt: {
-    type: String,
-    required: true,
+    type: Date,
+    default: Date.now()
   }
 });
+
+const card = mongoose.model("card", cardSchema);
+module.exports = card;
