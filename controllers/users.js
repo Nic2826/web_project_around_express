@@ -18,9 +18,8 @@ async function getUsers(req, res) {
 async function createUsers(req, res) {
   try{
     const newUser = await User.create({
-      name: req.body.name,
-      about: req.body.about,
-      avatar:req.body.avatar
+      email: req.body.email,
+      password: req.body.password
     });
     res.send(newUser);
   }catch (err) {
