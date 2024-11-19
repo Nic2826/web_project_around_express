@@ -6,7 +6,7 @@ const router = express.Router();
 const {getCards, createCards, deleteCardById} = require('../controllers/cards');
 // Ruta para obtener todas las tarjetas
 router.get('/', (getCards));
-router.post('/login', (createCards));
+
 router.delete('/:id', (deleteCardById));
 
 module.exports = router;

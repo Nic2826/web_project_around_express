@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const {generateToken} = require('../helper/generateToken');
 
 // Definición de códigos de error
 const ERROR_CODE_BAD_REQUEST = 400;
@@ -17,6 +18,7 @@ async function getUsers(req, res) {
 
 async function createUsers(req, res) {
   try{
+    console.log(req.body);
     const newUser = await User.create({
       email: req.body.email,
       password: req.body.password
@@ -26,7 +28,7 @@ async function createUsers(req, res) {
     // Manejo de errores
     if (err.name === 'ValidationError') {
       // Error de validación para datos inválidos (400)
-      return res.status(ERROR_CODE_BAD_REQUEST).send({ message: 'Datos inválidos al crear la tarjeta' });
+      return res.status(ERROR_CODE_BAD_REQUEST).send({ message: 'Datos inválidos al crear el usuario' });
     }
     // Error predeterminado (500)
     res.status(ERROR_CODE_SERVER_ERROR).send({ message: 'Error interno del servidor'});
@@ -77,4 +79,23 @@ async function updateAvatar(req, res) {
   }
 };
 
-module.exports = { getUsers, createUsers, updateUser, updateAvatar}
+async function loginUsers(req, res) {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email, password });
+
+    if (!user) {
+      return res.status(ERROR_CODE_BAD_REQUEST).send({ message: 'Usuario no encontrado' });
+    }
+
+    // Aquí generas el token si el usuario existe
+    const token = generateToken(user);
+    res.send({ token });
+
+  } catch (err) {
+     res.status(ERROR_CODE_SERVER_ERROR).send({ message: 'Error interno del servidor' });
+  }
+
+}
+
+module.exports = { getUsers, createUsers, updateUser, updateAvatar, loginUsers}
