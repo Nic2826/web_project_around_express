@@ -16,6 +16,12 @@ async function getUsers(req, res) {
   }
 };
 
+async function getUserInfo(req, res) {
+const {userId} = req.user;
+const user = await User.findById(userId);
+res.send(user);
+}
+
 async function createUsers(req, res) {
   try{
     console.log(req.body);
@@ -82,7 +88,7 @@ async function updateAvatar(req, res) {
 async function loginUsers(req, res) {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email, password });
+    const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
       return res.status(ERROR_CODE_BAD_REQUEST).send({ message: 'Usuario no encontrado' });
@@ -98,4 +104,6 @@ async function loginUsers(req, res) {
 
 }
 
-module.exports = { getUsers, createUsers, updateUser, updateAvatar, loginUsers}
+
+
+module.exports = { getUsers, createUsers, updateUser, updateAvatar, loginUsers, getUserInfo}

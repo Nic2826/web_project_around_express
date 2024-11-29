@@ -1,14 +1,24 @@
 const cors = require('cors');
-
+const {auth} = require('./middleware/auth');
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const usersRoutes = require('./routes/users');
 const cardsRoutes = require('./routes/cards');
+const {loginUsers, createUsers} = require('./controllers/users');
+const errorHandler = require('./middleware/errorHandler');
 
 app.use(cors());
-
 app.use(express.json());
+app.use(auth);
+// Ruta para registrar usuarios
+app.post('/signup', createUsers);
+// Ruta para iniciar sesión de usuarios
+app.post('/signin', loginUsers);
+// Middleware de manejo de errores centralizado
+app.use(errorHandler);
+
+
 
 
 app.use((req, res, next) => {
