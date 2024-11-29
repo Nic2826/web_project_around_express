@@ -22,16 +22,11 @@ router.get('/me', getUserInfo);
 
 
 
-// Ruta para obtener un usuario por ID (validamos que el ID sea un número)
-router.get('/:id', celebrate({
-  params: Joi.object({
-    id: Joi.number().integer().required().messages({
-      'number.base': 'El ID debe ser un número',
-      'number.integer': 'El ID debe ser un número entero',
-      'any.required': 'El ID es obligatorio',
-    }),
-  }),
-}), getUserById);
+// Ruta para obtener un usuario por ID
+router.get('/:id', (req, res) => {
+  const {id} = req.params;
+});
+
 
 
 
