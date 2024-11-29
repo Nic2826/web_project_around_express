@@ -1,7 +1,7 @@
 {
-  "name": "web_project_around_express",
+  "name": "web_project_api_full",
   "version": "1.0.0",
-  "description": "web project around express",
+  "description": "web_project_api_full",
   "main": "index.js",
   "scripts": {
     "lint": "npx eslint",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "web project around express"
+    "url": "web_project_api_full"
   },
   "author": "Nicolle Algarin",
   "license": "ISC",
